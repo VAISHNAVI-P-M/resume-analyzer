@@ -39,7 +39,7 @@ function Login() {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md">
         <h1 className="text-2xl font-bold text-gray-800 mb-1">Welcome back</h1>
-        <p className="text-gray-500 text-sm mb-6">Login to your Resume Analyzer account</p>
+        <p className="text-gray-500 text-sm mb-6">Login to your PrepIQ account</p>
 
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>

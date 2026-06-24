@@ -102,21 +102,24 @@ function Upload() {
     <div className="min-h-screen bg-gray-50">
 
       {/* Navbar */}
-      <nav className="bg-white border-b border-gray-200 px-6 py-4 flex justify-between items-center">
-        <h1 className="text-lg font-bold text-blue-600">Resume Analyzer</h1>
-        <div className="flex items-center gap-4">
-          <span className="text-sm text-gray-600">Hello, {user.name}</span>
-          <button
-            onClick={() => {
-              localStorage.clear()
-              navigate('/login')
-            }}
-            className="text-sm text-red-500 hover:underline"
-          >
-            Logout
-          </button>
-        </div>
-      </nav>
+      <nav className="bg-white border-b border-gray-200 px-6 py-6 flex justify-between items-center">
+  <h1 className="text-3xl font-bold text-blue-800 ml-5">PrepIQ</h1>
+  <div className="flex items-center gap-3">
+  <span className="text-sm text-gray-500">Hello, {user.name}</span>
+  <button
+    onClick={() => navigate('/history')}
+    className="text-sm font-medium text-blue-600 border border-blue-200 px-4 py-1.5 rounded-lg hover:bg-blue-50 transition"
+  >
+    View History
+  </button>
+  <button
+    onClick={() => { localStorage.clear(); navigate('/login') }}
+    className="text-sm font-medium text-white bg-red-500 px-4 py-1.5 rounded-lg hover:bg-red-600 transition"
+  >
+    Logout
+  </button>
+</div>
+</nav>
 
       {/* Main content */}
       <div className="max-w-3xl mx-auto px-6 py-10">
@@ -213,15 +216,7 @@ function Upload() {
           )}
         </button>
 
-        {/* History link */}
-        <p className="text-center text-sm text-gray-400 mt-6">
-          <span
-            onClick={() => navigate('/history')}
-            className="hover:text-blue-500 cursor-pointer hover:underline"
-          >
-            View past analyses →
-          </span>
-        </p>
+        
 
       </div>
     </div>

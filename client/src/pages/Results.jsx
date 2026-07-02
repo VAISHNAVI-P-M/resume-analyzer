@@ -28,7 +28,7 @@ if (parsed.alreadySaved) {
     setSaving(true)
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:5000/api/history/save', {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/history/save`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

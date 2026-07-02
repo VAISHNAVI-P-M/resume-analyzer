@@ -68,7 +68,7 @@ function Upload() {
     formData.append('resume', resumeFile)
     formData.append('jobDescription', jobDescription)
 
-    const response = await fetch('http://localhost:5000/api/analyze', {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}/api/analyze`, {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${token}` },
       body: formData

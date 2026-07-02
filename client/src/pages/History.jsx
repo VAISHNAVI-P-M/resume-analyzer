@@ -13,7 +13,7 @@ function History() {
   const fetchHistory = async () => {
     try {
       const token = localStorage.getItem('token')
-      const response = await fetch('http://localhost:5000/api/history', {
+      fetch(`${process.env.REACT_APP_API_URL}/api/history`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

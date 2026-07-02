@@ -46,54 +46,50 @@ function Upload() {
 
   // Called when user clicks Submit
   const handleSubmit = async () => {
-    // Validate both fields exist
-    if (!resumeFile) {
-      setMessage('Please upload your resume')
-      return
-    }
-    if (!jobDescription.trim()) {
-      setMessage('Please paste a job description')
-      return
-    }
-
-    setLoading(true)
-    setMessage('')
-
-    try {
-      // Get the JWT token from localStorage
-      const token = localStorage.getItem('token')
-
-      // Build FormData — carries file + text together
-      const formData = new FormData()
-      formData.append('resume', resumeFile)
-      formData.append('jobDescription', jobDescription)
-
-      // Send to backend
-      const response = await fetch('http://localhost:5000/api/analyze', {
-        method: 'POST',
-        headers: {
-          // Note: NO 'Content-Type' header here
-          // When using FormData, browser sets it automatically
-          'Authorization': `Bearer ${token}`
-        },
-        body: formData
-      })
-
-      const data = await response.json()
-
-      if (response.ok) {
-        // Save result and go to results page
-        localStorage.setItem('analysisResult', JSON.stringify(data))
-        navigate('/results')
-      } else {
-        setMessage(data.error || 'Analysis failed. Try again.')
-      }
-    } catch (err) {
-      setMessage('Cannot connect to server')
-    }
-
-    setLoading(false)
+  if (!resumeFile) {
+    setMessage('Please upload your resume PDF')
+    return
   }
+  if (!jobDescription.trim()) {
+    setMessage('Please paste a job description')
+    return
+  }
+  if (resumeFile.size > 5 * 1024 * 1024) {
+    setMessage('PDF file is too large. Please upload a file under 5MB.')
+    return
+  }
+
+  setLoading(true)
+  setMessage('')
+
+  try {
+    const token = localStorage.getItem('token')
+    const formData = new FormData()
+    formData.append('resume', resumeFile)
+    formData.append('jobDescription', jobDescription)
+
+    const response = await fetch('http://localhost:5000/api/analyze', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${token}` },
+      body: formData
+    })
+
+    const data = await response.json()
+
+    if (response.ok) {
+      localStorage.setItem('analysisResult', JSON.stringify(data))
+      navigate('/results')
+    } else {
+      // Show specific backend error if available
+      setMessage(data.error || 'Analysis failed. Please try again.')
+    }
+  } catch (err) {
+    // This catches network errors — server down, no internet etc
+    setMessage('Cannot connect to server. Please check your connection and try again.')
+  }
+
+  setLoading(false)
+}
 
   // Get user name from localStorage to show greeting
   const user = JSON.parse(localStorage.getItem('user') || '{}')
@@ -103,7 +99,7 @@ function Upload() {
 
       {/* Navbar */}
       <nav className="bg-white border-b border-gray-200 px-6 py-6 flex justify-between items-center">
-  <h1 className="text-3xl font-bold text-blue-800 ml-5">PrepIQ</h1>
+  <h1 className="text-3xl font-bold text-blue-600 ml-5">PrepIQ</h1>
   <div className="flex items-center gap-3">
   <span className="text-sm text-gray-500">Hello, {user.name}</span>
   <button
@@ -204,16 +200,16 @@ function Upload() {
           className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? (
-            <span className="flex items-center justify-center gap-2">
-              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
-              </svg>
-              Analyzing your resume...
-            </span>
-          ) : (
-            'Analyze My Resume →'
-          )}
+  <span className="flex items-center justify-center gap-2">
+    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/>
+    </svg>
+    AI is analyzing — this takes 15–20 seconds...
+  </span>
+) : (
+  'Analyze My Resume →'
+)}
         </button>
 
         

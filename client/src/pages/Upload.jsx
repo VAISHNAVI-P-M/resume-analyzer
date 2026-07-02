@@ -61,7 +61,7 @@ function Upload() {
 
   setLoading(true)
   setMessage('')
-
+  localStorage.removeItem('analysisResult') // clear old result before new analysis
   try {
     const token = localStorage.getItem('token')
     const formData = new FormData()

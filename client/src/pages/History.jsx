@@ -13,12 +13,13 @@ function History() {
   const fetchHistory = async () => {
     try {
       const token = localStorage.getItem('token')
-      fetch(`${process.env.REACT_APP_API_URL}/api/history`, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-      const data = await response.json()
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/history`, {
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+})
+
+const data = await response.json()
       if (response.ok) {
         setHistory(data.history)
       }
